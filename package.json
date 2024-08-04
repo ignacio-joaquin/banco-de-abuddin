@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "prisma": "^5.17.0"
+  },
+  "name": "banco-de-abuddin",
+  "version": "0.1",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
