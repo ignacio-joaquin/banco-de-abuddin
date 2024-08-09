@@ -8,19 +8,32 @@
 </head>
 <body class="bg-black text-white">
     <header class="bg-gray-900 p-6 border-b border-gray-800">
-        <h1 class="text-3xl text-white">Welcome to Abuddin Bank</h1>
+        <div class="inline-flex items-center">
+            <h1 class="text-3xl text-white">Welcome to Abuddin</h1>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa4-m-jELL3sN3zl1xYTfGLAHHqiTlwm6_dw&s"
+                alt="Icon"
+                class="flex w-6 h-6 p-2">
+                <h1 class="text-3xl text-white"> Bank</h1>
+        </div>
+
+        
         <nav class="mt-4">
             <ul class="flex justify-center space-x-4">
                 <li><a href="#sell-soul" class="text-gray-400 hover:text-white">Sell Your Soul</a></li>
                 <li><a href="#transfer" class="text-gray-400 hover:text-white">Transfer Funds</a></li>
                 <li><a href="#balance" class="text-gray-400 hover:text-white">View Balance</a></li>
-                <li><a href="#social-credits" class="text-gray-400 hover:text-white">Social Credits</a></li>
                 <li><a href="#manage-account" class="text-gray-400 hover:text-white">Manage Account</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="p-6">
+        
+        <section id="balance" class="mb-8">
+            <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Your Balance</h2>
+            <p id="balance-amount" class="text-3xl font-bold">$0.00</p>
+        </section>
+
         <section id="sell-soul" class="mb-8">
             <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Sell Your Soul</h2>
             <form id="soul-form">
@@ -29,7 +42,6 @@
                 <button type="submit" id="sell-soul-button" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Sell Soul</button>
             </form>
         </section>
-
         <section id="transfer" class="mb-8">
             <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Transfer Funds</h2>
             <form id="transfer-form">
@@ -41,15 +53,7 @@
             </form>
         </section>
 
-        <section id="balance" class="mb-8">
-            <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Your Balance</h2>
-            <p id="balance-amount" class="text-3xl font-bold">$0.00</p>
-        </section>
 
-        <section id="social-credits" class="mb-8">
-            <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Social Credits</h2>
-            <p id="social-credits-amount" class="text-3xl font-bold">0</p>
-        </section>
 
         <section id="manage-account">
             <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Manage Your Account</h2>

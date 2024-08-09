@@ -13,6 +13,11 @@ document.getElementById('transfer-form').addEventListener('submit', function (ev
     const transferTo = document.getElementById('transfer-to').value;
     const transferAmount = document.getElementById('transfer-amount').value;
     console.log(`Transferring ${transferAmount} to ${transferTo}`);
+    message = {
+        amount: transferAmount,
+        destinary: transferTo
+    }
+    sendMessage("transfer", message)
     // Add logic to handle fund transfer here
 });
 
@@ -33,6 +38,7 @@ const ws = new WebSocket('ws://localhost:8080');
 // Event handler for when the WebSocket connection is established
 ws.onopen = () => {
     console.log('Connected to the WebSocket server');
+    sendMessage("balance_check","")
 };
 
 // Event handler for when a message is received from the WebSocket server

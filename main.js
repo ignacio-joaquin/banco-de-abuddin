@@ -109,7 +109,6 @@ wss.on('connection', (ws, request) => {
         const data = JSON.parse(message);
         console.log(data)
         if (data.type == "sell_soul") {
-            console.log(data.user + " soul selled for " + data.message + " $");
             userId = await prisma.users.findUnique({
                 where: {
                     username: data.user
@@ -133,6 +132,14 @@ wss.on('connection', (ws, request) => {
             });
             sendMessage(ws,"update_balance",balance.amount);
         }
+        if(data.type == "balance_check"){
+            sendMessage(ws, "update_balance", await getUserBalance(data.user))
+        }
+        if(data.type == "transfer"){
+            if (getUserBalance(data.user) >= data.message.amount) {
+                
+            }
+        }
     });
 });
 
@@ -153,7 +160,7 @@ async function getUserBalance(user) {
             amount: true
         }
     });
-    return balance;
+    return balance.amount;
 }
 
 function sendMessage(ws,type,content) {
