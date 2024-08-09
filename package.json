@@ -1,11 +1,17 @@
 {
   "dependencies": {
-    "prisma": "^5.17.0"
+    "@prisma/client": "^5.17.0",
+    "connect-flash": "^0.1.1",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "prisma": "^5.17.0",
+    "ws": "^8.18.0"
   },
   "name": "banco-de-abuddin",
   "version": "0.1",
   "main": "main.js",
-  "devDependencies": {},
   "scripts": {
     "start": "node main.js"
   },

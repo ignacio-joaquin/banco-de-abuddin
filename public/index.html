@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abuddin Bank</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Abuddin Bank</h1>
+        <nav>
+            <ul>
+                <li><a href="#sell-soul">Sell Your Soul</a></li>
+                <li><a href="#transfer">Transfer Funds</a></li>
+                <li><a href="#balance">View Balance</a></li>
+                <li><a href="#social-credits">Social Credits</a></li>
+                <li><a href="#manage-account">Manage Account</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="sell-soul">
+            <h2>Sell Your Soul</h2>
+            <form id="soul-form">
+                <label for="soul-value">Value:</label>
+                <input type="number" id="soul-value" name="soul-value" placeholder="Enter value" min="1" max="10000" required>
+                <button type="submit" id="sell-soul-button">Sell Soul</button>
+            </form>
+        </section>
+
+        <section id="transfer">
+            <h2>Transfer Funds</h2>
+            <form id="transfer-form">
+                <label for="transfer-to">Transfer To:</label>
+                <input type="text" id="transfer-to" name="transfer-to" placeholder="Recipient Username" required>
+                <label for="transfer-amount">Amount:</label>
+                <input type="number" id="transfer-amount" name="transfer-amount" placeholder="Amount" min="0" required>
+                <button type="submit" id="transfer-button">Transfer</button>
+            </form>
+        </section>
+
+        <section id="balance">
+            <h2>Your Balance</h2>
+            <p id="balance-amount">$0.00</p>
+            <!-- Balance would be dynamically updated -->
+        </section>
+
+        <section id="social-credits">
+            <h2>Social Credits</h2>
+            <p id="social-credits-amount">0</p>
+            <!-- Social credits would be dynamically updated -->
+        </section>
+
+        <section id="manage-account">
+            <h2>Manage Your Account</h2>
+            <form id="manage-account-form">
+                <label for="account-email">Email:</label>
+                <input type="email" id="account-email" name="account-email" placeholder="Update Email" required>
+                <label for="account-password">Password:</label>
+                <input type="password" id="account-password" name="account-password" placeholder="Update Password" required>
+                <button type="submit" id="update-account-button">Update Account</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Abuddin Bank. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

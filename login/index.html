@@ -1,0 +1,37 @@
+<form id="loginForm">
+    <label for="username">Username</label><br>
+    <input id="username" type="text" title="username"><br>
+    <label for="password">Password</label><br>
+    <input id="password" type="password" title="password"><br>
+    <input type="submit" value="Login">
+</form>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+    
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+    
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password, username})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Handle successful login
+                window.location.replace("/");
+            } else {
+                // Handle login failure
+                console.error('Login failed:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+    </script>
