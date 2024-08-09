@@ -17,12 +17,12 @@ model users {
   id       Int      @id @default(autoincrement())
   username String   @unique
   password String   @unique
-  cuentas  cuenta[]
+  cuentas  cuenta?
 }
 
 model cuenta {
   nro_cuenta Int      @id
-  user_id    Int      // Scalar field for foreign key
+  user_id    Int      @unique// Scalar field for foreign key
   alias      String   @unique
   currency   String
   amount     Int

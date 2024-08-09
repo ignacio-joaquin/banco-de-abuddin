@@ -109,32 +109,67 @@ wss.on('connection', (ws, request) => {
         const data = JSON.parse(message);
         console.log(data)
         if (data.type == "sell_soul") {
-            // user = await prisma.users.findUnique({
-            //     where: {
-            //         id: userId
-            //     },
-            //     select:{
-            //         username: true
-            //     }
-            // });
-            console.log(data.user +" soul selled for " + data.message + " $");
-            
+            console.log(data.user + " soul selled for " + data.message + " $");
+            userId = await prisma.users.findUnique({
+                where: {
+                    username: data.user
+                },
+                select: {
+                    id: true
+                }
+            });
+            balance = await prisma.cuenta.update({
+                where: {
+                    user_id: userId.id
+                },
+                data: {
+                    amount: {
+                        increment: parseInt(data.message)
+                    }
+                },
+                select: {
+                    amount: true
+                }
+            });
+            sendMessage(ws,"update_balance",balance.amount);
         }
     });
 });
 
-async function getUserBalance(userId) {
-    const cuentas = await prisma.cuenta.findMany({
+async function getUserBalance(user) {
+    userId = await prisma.users.findUnique({
         where: {
-            user_id: userId
+            username: user
+        },
+        select: {
+            id: true
+        }
+    });
+    balance = await prisma.cuenta.findUnique({
+        where: {
+            user_id: userId.id
         },
         select: {
             amount: true
         }
     });
+    return balance;
+}
 
-    const totalBalance = cuentas.reduce((total, cuenta) => total + cuenta.amount, 0);
-    return totalBalance;
+function sendMessage(ws,type,content) {
+    // Create a message object
+    const message = {
+        type: type,
+        message: content,
+    };
+
+    // Send the message as a JSON string
+    if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(message));
+        console.log(message)
+    } else {
+        console.error('WebSocket is not open. Unable to send message.');
+    }
 }
 
 app.use(express.static('public'))
@@ -159,3 +194,4 @@ app.on('upgrade', (request, socket, head) => {
         }
     });
 });
+

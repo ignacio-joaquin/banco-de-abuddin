@@ -37,8 +37,11 @@ ws.onopen = () => {
 
 // Event handler for when a message is received from the WebSocket server
 ws.onmessage = (event) => {
-    const data = JSON.parse(message);
-    console.log(data)
+
+    const data = JSON.parse(event.data);
+    if(data.type == "update_balance"){
+        document.getElementById("balance-amount").innerHTML= "$"+data.message ;
+    }
 };
 
 function sendMessage(type,content) {
