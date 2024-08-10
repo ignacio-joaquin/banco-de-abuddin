@@ -14,8 +14,7 @@
             <div class="text-foreground font-semibold text-2xl tracking-tighter mx-auto flex items-center gap-2">
                 <div>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa4-m-jELL3sN3zl1xYTfGLAHHqiTlwm6_dw&s"
-                        alt="Icon"
-                        class="w-6 h-6 shadow-lg shadow-white">
+                        alt="Icon" class="w-6 h-6 shadow-lg shadow-white">
                 </div>
                 Abuddin Bank
             </div>
@@ -25,23 +24,29 @@
             <div class="mx-5 border border-white/20 shadow-lg shadow-slate-500/10 dark:shadow-white/20 rounded-lg">
                 <div class="flex flex-col p-6">
                     <h3 class="text-xl font-semibold leading-6 tracking-tighter">Login</h3>
-                    <p class="mt-1.5 text-sm font-medium text-white/50">Welcome back, enter your credentials to continue. If you do not have an account, one will be created.</p>
+                    <p class="mt-1.5 text-sm font-medium text-white/50">Welcome back, enter your credentials to
+                        continue. If you do not have an account, one will be created.</p>
                 </div>
                 <div class="p-6 pt-0">
                     <form id="loginForm">
                         <div>
-                            <div class="group relative rounded-lg border focus-within:border-sky-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
+                            <div
+                                class="group relative rounded-lg border focus-within:border-sky-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
                                 <div class="flex justify-between">
-                                    <label class="text-xs font-medium text-gray-400 group-focus-within:text-white">Username</label>
+                                    <label
+                                        class="text-xs font-medium text-gray-400 group-focus-within:text-white">Username</label>
                                 </div>
-                                <input type="text" id="username" name="username" placeholder="Username" autocomplete="off"
+                                <input type="text" id="username" name="username" placeholder="Username"
+                                    autocomplete="off"
                                     class="block w-full border-0 bg-transparent p-0 text-sm placeholder:text-muted-foreground/90 focus:outline-none focus:ring-0 sm:leading-7 text-foreground">
                             </div>
                         </div>
                         <div class="mt-4">
-                            <div class="group relative rounded-lg border focus-within:border-sky-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
+                            <div
+                                class="group relative rounded-lg border focus-within:border-sky-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
                                 <div class="flex justify-between">
-                                    <label class="text-xs font-medium text-gray-400 group-focus-within:text-white">Password</label>
+                                    <label
+                                        class="text-xs font-medium text-gray-400 group-focus-within:text-white">Password</label>
                                 </div>
                                 <div class="flex items-center">
                                     <input type="password" id="password" name="password"
@@ -62,7 +67,7 @@
 </body>
 
 <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Prevent the default form submission
 
         const username = document.getElementById('username').value;
@@ -75,19 +80,20 @@
             },
             body: JSON.stringify({ username, password })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Handle successful login
-                window.location.replace("/");
-            } else {
-                // Handle login failure
-                console.error('Login failed:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Handle successful login
+                    document.cookie = `username=${username};path=/`
+                    window.location.replace("/");
+                } else {
+                    // Handle login failure
+                    console.error('Login failed:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     });
 </script>
 

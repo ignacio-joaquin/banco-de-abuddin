@@ -47,6 +47,12 @@ ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     if(data.type == "update_balance"){
         document.getElementById("balance-amount").innerHTML= "$"+data.message ;
+        document.getElementById('warning-message').classList.add('hidden');
+    }
+    if(data.type == "invalid_transaction"){
+        const warningMessage = document.getElementById('warning-message');
+        warningMessage.textContent = 'Invalid transaction. Please check the details and try again.';
+        warningMessage.classList.remove('hidden');
     }
 };
 

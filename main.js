@@ -130,14 +130,63 @@ wss.on('connection', (ws, request) => {
                     amount: true
                 }
             });
-            sendMessage(ws,"update_balance",balance.amount);
+            sendMessage(ws, "update_balance", balance.amount);
         }
-        if(data.type == "balance_check"){
+        if (data.type == "balance_check") {
             sendMessage(ws, "update_balance", await getUserBalance(data.user))
         }
-        if(data.type == "transfer"){
-            if (getUserBalance(data.user) >= data.message.amount) {
-                
+        if (data.type == "transfer") {
+            if (await getUserBalance(data.user) >= data.message.amount) {
+                destinary = await prisma.users.findUnique({
+                    where: {
+                        username: data.message.destinary
+                    },
+                    select: {
+                        id: true
+                    }
+                });
+                if (!destinary) {
+                    sendMessage(ws,"invalid_transaction","");
+                    return;
+                }
+                userId = await prisma.users.findUnique({
+                    where: {
+                        username: data.user
+                    },
+                    select: {
+                        id: true
+                    }
+                });
+                await prisma.cuenta.update({
+                    where: {
+                        user_id: userId.id
+                    },
+                    data: {
+                        amount: {
+                            decrement: parseInt(data.message.amount)
+                        }
+                    },
+                    select: {
+                        amount: true
+                    }
+                });
+                await prisma.cuenta.update({
+                    where: {
+                        user_id: destinary.id
+                    },
+                    data: {
+                        amount: {
+                            increment: parseInt(data.message.amount)
+                        }
+                    },
+                    select: {
+                        amount: true
+                    }
+                });
+                sendMessage(ws, "update_balance", await getUserBalance(data.user))
+            }else{
+                sendMessage(ws,"invalid_transaction","");
+                return;
             }
         }
     });
@@ -163,7 +212,7 @@ async function getUserBalance(user) {
     return balance.amount;
 }
 
-function sendMessage(ws,type,content) {
+function sendMessage(ws, type, content) {
     // Create a message object
     const message = {
         type: type,
