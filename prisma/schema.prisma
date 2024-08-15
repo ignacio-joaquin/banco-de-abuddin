@@ -23,8 +23,6 @@ model users {
 model cuenta {
   nro_cuenta Int      @id
   user_id    Int      @unique// Scalar field for foreign key
-  alias      String   @unique
-  currency   String
   amount     Int
 
   user       users    @relation(fields: [user_id], references: [id]) // Relation field
