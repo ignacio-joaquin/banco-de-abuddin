@@ -21,7 +21,7 @@ model users {
 }
 
 model cuenta {
-  nro_cuenta Int      @id
+  nro_cuenta Int      @id @default(autoincrement())
   user_id    Int      @unique// Scalar field for foreign key
   amount     Int
 

@@ -118,10 +118,17 @@ app.post('/api/sign-up', async (req, res) => {
 
         const newUser = await prisma.users.create({
             data: {
-                username,
-                password: hashedPassword, // Store the hashed password
+                username: username,
+                password: hashedPassword,
+                cuentas: {  // Create the associated account
+                    create: {
+                        amount: 0, // Initial account balance
+                    }
+                }
             },
         });
+
+
 
         req.logIn(newUser, (err) => {
             if (err) {
