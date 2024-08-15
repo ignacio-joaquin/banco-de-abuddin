@@ -12,10 +12,10 @@
     "ws": "^8.18.0"
   },
   "name": "banco-de-abuddin",
-  "version": "0.1",
+  "version": "1.0",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js; cd /public; npx tailwindcss -o build css; cd ..;"
+    "start": " cd public/; npx tailwindcss -o build css; cd ..;node main.js;"
   },
   "keywords": [],
   "author": "",

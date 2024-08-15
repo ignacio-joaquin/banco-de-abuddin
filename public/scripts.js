@@ -22,11 +22,11 @@ document.getElementById('transfer-form').addEventListener('submit', function (ev
 });
 
 // Handle 'Manage Account' form submission
-document.getElementById('manage-account-form').addEventListener('submit', function (event) {
+document.getElementById('manage-username').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent form submission
-    const accountEmail = document.getElementById('account-email').value;
-    const accountPassword = document.getElementById('account-password').value;
-    console.log(`Updating account with email: ${accountEmail}`);
+    const accountusername = document.getElementById('account-username').value;
+    sendMessage("change_username",accountusername)
+    document.cookie = `username=${accountusername};path=/`;
     // Add logic to handle account management here
 });
 

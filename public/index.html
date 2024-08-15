@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abuddin Bank</title>
     <link href="build.css" rel="stylesheet">
 </head>
+
 <body class="bg-black text-white">
     <header class="bg-gray-900 p-6 border-b border-gray-800">
         <div class="inline-flex items-center">
             <h1 class="text-3xl text-white">Welcome to Abuddin</h1>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa4-m-jELL3sN3zl1xYTfGLAHHqiTlwm6_dw&s"
-                alt="Icon"
-                class="flex h-10 w-10 p-2">
-                <h1 class="text-3xl text-white"> Bank</h1>
+                alt="Icon" class="flex h-10 w-10 p-2">
+            <h1 class="text-3xl text-white"> Bank</h1>
         </div>
 
-        
+
         <nav class="mt-4">
             <ul class="flex justify-center space-x-4">
                 <li><a href="#balance" class="text-gray-400 hover:text-white">View Balance</a></li>
@@ -28,7 +29,7 @@
     </header>
 
     <main class="p-6">
-        
+
         <section id="balance" class="mb-8">
             <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Your Balance</h2>
             <p id="balance-amount" class="text-3xl font-bold">$0.00</p>
@@ -38,41 +39,53 @@
             <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Sell Your Soul</h2>
             <form id="soul-form">
                 <label for="soul-value" class="block mb-2">Value:</label>
-                <input type="number" id="soul-value" name="soul-value" placeholder="Enter value" min="1" max="10000" required class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
-                <button type="submit" id="sell-soul-button" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Sell Soul</button>
+                <input type="number" id="soul-value" name="soul-value" placeholder="Enter value" min="1" max="10000"
+                    required class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
+                <button type="submit" id="sell-soul-button"
+                    class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Sell Soul</button>
             </form>
         </section>
         <section id="transfer" class="mb-8">
             <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Transfer Funds</h2>
             <form id="transfer-form">
                 <label for="transfer-to" class="block mb-2">Transfer To:</label>
-                <input type="text" id="transfer-to" name="transfer-to" placeholder="Recipient Username" required class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
+                <input type="text" id="transfer-to" name="transfer-to" placeholder="Recipient Username" required
+                    class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
                 <label for="transfer-amount" class="block mb-2">Amount:</label>
-                <input type="number" id="transfer-amount" name="transfer-amount" placeholder="Amount" min="0" required class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
+                <input type="number" id="transfer-amount" name="transfer-amount" placeholder="Amount" min="0" required
+                    class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
                 <main class="p-6">
                     <div id="warning-message" class="bg-red-600 text-white p-4 rounded mb-4 hidden">
                         Invalid transaction. Please check the details and try again.
                     </div>
-                <button type="submit" id="transfer-button" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Transfer</button>
+                    <button type="submit" id="transfer-button"
+                        class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Transfer</button>
             </form>
 
-                <!-- Existing sections (balance, sell soul, transfer, etc.) -->
-            </main>
-            
-        </section>
+            <!-- Existing sections (balance, sell soul, transfer, etc.) -->
+    </main>
+
+    </section>
 
 
 
-        <section id="manage-account">
-            <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Manage Your Account</h2>
-            <form id="manage-account-form">
-                <label for="account-email" class="block mb-2">Email:</label>
-                <input type="email" id="account-email" name="account-email" placeholder="Update Email" required class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
-                <label for="account-password" class="block mb-2">Password:</label>
-                <input type="password" id="account-password" name="account-password" placeholder="Update Password" required class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
-                <button type="submit" id="update-account-button" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Update Account</button>
-            </form>
-        </section>
+    <section id="manage-account">
+        <h2 class="text-2xl text-white border-b border-gray-800 pb-2 mb-4">Manage Your Account</h2>
+        <form id="manage-username">
+            <label for="account-username" class="block mb-2">Username:</label>
+            <input type="username" id="account-username" name="account-username" placeholder="Update Username" required
+                class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
+            <button type="submit" id="update-account-button"
+                class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 mb-4">Update Username</button>
+        </form>
+        <form id="manage-password">
+            <label for="account-password" class="block mb-2">Password:</label>
+            <input type="password" id="account-password" name="account-password" placeholder="Update Password" required
+                class="w-full p-3 bg-gray-800 border border-gray-700 text-white rounded mb-4">
+            <button type="submit" id="update-account-button"
+                class="bg-white text-black px-4 py-2 rounded hover:bg-gray-200">Update Password</button>
+        </form>
+    </section>
     </main>
 
     <footer class="bg-gray-900 p-4 text-center border-t border-gray-800">
@@ -81,4 +94,5 @@
 
     <script src="scripts.js"></script>
 </body>
+
 </html>

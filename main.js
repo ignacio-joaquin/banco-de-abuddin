@@ -50,11 +50,12 @@ passport.use(new LocalStrategy({
             return done(null, false, { message: 'Incorrect username or password.' });
         }
 
-        if (password != user.password) {
-            return done(null, false, { message: 'Incorrect username or password.' });
-        }
+        if (bcrypt.compare(password ,user.password)) {
 
-        return done(null, user);
+            return done(null, user);
+        }
+        return done(null, false, { message: 'Incorrect username or password.' });
+        
     } catch (error) {
         return done(error);
     }
@@ -227,6 +228,19 @@ wss.on('connection', (ws, request) => {
                 sendMessage(ws,"invalid_transaction","");
                 return;
             }
+        }
+        if (data.type == "change_username") {
+            await prisma.users.update({
+                where: { username: data.user },
+                data: { username: data.message },
+            });
+            sendMessage(ws,"succesful_change_username","")
+        }
+        if (data.type == "change_password") {
+            await prisma.users.update({
+                where: { username: data.user },
+                data: { password: await bcrypt.hash(data.message, 10) },
+            });
         }
     });
 });
