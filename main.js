@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const path = require('path');
 const crypto = require('crypto');
 const WebSocket = require('ws');
+const bcrypt = require('bcrypt');
 
 
 const prisma = new PrismaClient();
@@ -101,6 +102,37 @@ app.post('/api/login', (req, res, next) => {
             return res.json({ success: true });
         });
     })(req, res, next);
+});
+
+
+app.post('/api/sign-up', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        const existingUser = await prisma.users.findUnique({ where: { username } });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: 'Username is already taken.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await prisma.users.create({
+            data: {
+                username,
+                password: hashedPassword, // Store the hashed password
+            },
+        });
+
+        req.logIn(newUser, (err) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: err.message });
+            }
+            return res.json({ success: true, message: 'Account created and user logged in.' });
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
 });
 
 wss.on('connection', (ws, request) => {
