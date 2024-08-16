@@ -8,17 +8,16 @@ const path = require('path');
 const crypto = require('crypto');
 const WebSocket = require('ws');
 const bcrypt = require('bcrypt');
-
+const { body, validationResult } = require('express-validator');
 
 const prisma = new PrismaClient();
 const app = express();
 const wss = new WebSocket.Server({ port: 8080 });
 
-const api = require("./api.js")
-const wsManager = require("./wsManager.js")
+const api = require("./api.js");
+const wsManager = require("./wsManager.js");
 
 // Middleware
-
 app.use(session({
     secret: crypto.randomBytes(64).toString('hex'),
     resave: false,
@@ -44,21 +43,18 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
 }, async (username, password, done) => {
     try {
-        // Ensure `username` is a unique field in your Prisma schema
-        const user = await prisma.users.findUnique({
-            where: { username },
-        });
+        const user = await prisma.users.findUnique({ where: { username } });
 
         if (!user) {
             return done(null, false, { message: 'Incorrect username or password.' });
         }
 
-        if (bcrypt.compare(password ,user.password)) {
-
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
             return done(null, user);
+        } else {
+            return done(null, false, { message: 'Incorrect username or password.' });
         }
-        return done(null, false, { message: 'Incorrect username or password.' });
-        
     } catch (error) {
         return done(error);
     }
@@ -66,9 +62,8 @@ passport.use(new LocalStrategy({
 
 // Serialize and Deserialize user for session management
 passport.serializeUser((user, done) => {
-    done(null, user.id); // Ensure UserId is correct and exists
+    done(null, user.id);
 });
-
 
 passport.deserializeUser(async (id, done) => {
     try {
@@ -80,9 +75,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 function isAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
+    if (req.isAuthenticated()) return next();
     res.redirect('/login');
 }
 
@@ -91,13 +84,38 @@ app.get('/', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.post('/api/login', (req, res, next) => {
+// POST /api/login route with validation
+app.post('/api/login', [
+    // Validate and sanitize inputs
+    body('username').trim().isLength({ min: 1 }).escape().withMessage('Username is required'),
+    body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long')
+], (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        // Return validation errors
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Proceed with login logic
     api.logIn(req, res, next);
 });
 
+app.post('/api/sign-up', [
+    // Validate and sanitize inputs
+    body('username').trim().isLength({ min: 1 }).escape().withMessage('Username is required'),
+    body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long'),
+    body('email').isEmail().normalizeEmail().withMessage('Invalid email address')
+], async (req, res) => {
+    const errors = validationResult(req);
 
-app.post('/api/sign-up', async (req, res) => {
-    api.singUp(req,res);
+    if (!errors.isEmpty()) {
+        // Return validation errors
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Proceed with sign-up logic
+    api.singUp(req, res);
 });
 
 wss.on('connection', (ws, request) => {
@@ -107,24 +125,47 @@ wss.on('connection', (ws, request) => {
     });
 });
 
-app.use(express.static('../public'))
+app.use(express.static('../public'));
+
+// Centralized error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack); // Log detailed error stack for debugging (for development only)
+
+    // Send generic error response to the client
+    res.status(500).json({
+        message: 'Something went wrong. Please try again later.'
+    });
+});
+
+// Handle 404 errors
+app.use((req, res, next) => {
+    res.status(404).json({
+        message: 'Not Found'
+    });
+});
 
 const PORT = process.env.PORT || 3010;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+
+const https = require('https');
+const fs = require('fs');
+
+// HTTPS configuration
+const options = {
+    key: fs.readFileSync('/path/to/your/privkey.pem'),
+    cert: fs.readFileSync('/path/to/your/fullchain.pem')
+};
+
+https.createServer(options, app).listen(PORT, () => {
+    console.log(`Server is running on https://localhost:${PORT}`);
 });
 
 app.on('upgrade', (request, socket, head) => {
-    // Use the session parser to process the session data from the request
     sessionParser(request, {}, () => {
-        // Check if the request has a valid session with an authenticated user
         if (request.session.passport && request.session.passport.user) {
-            // If authenticated, handle the WebSocket upgrade request
             wss.handleUpgrade(request, socket, head, (ws) => {
                 wss.emit('connection', ws, request);
             });
         } else {
-            // If not authenticated, close the connection
             socket.destroy();
         }
     });
