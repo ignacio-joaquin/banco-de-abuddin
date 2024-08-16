@@ -13,9 +13,9 @@
   },
   "name": "banco-de-abuddin",
   "version": "1.0",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
-    "start": " cd public/; npx tailwindcss -o build css; cd ..;node main.js;"
+    "start": " cd public/; npx tailwindcss -o build css; cd ..; cd src;node server.js; cd ..;"
   },
   "keywords": [],
   "author": "",
