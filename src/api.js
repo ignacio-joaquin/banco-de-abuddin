@@ -1,4 +1,4 @@
-
+const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
