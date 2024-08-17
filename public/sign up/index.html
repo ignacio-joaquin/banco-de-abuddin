@@ -23,7 +23,7 @@
             <div class="relative -mb-px h-px w-full bg-gradient-to-r from-transparent via-sky-300 to-transparent"></div>
             <div class="mx-5 border border-white/20 shadow-lg shadow-slate-500/10 dark:shadow-white/20 rounded-lg">
                 <div class="flex flex-col p-6">
-                    <h3 class="text-xl font-semibold leading-6 tracking-tighter">Sing up</h3>
+                    <h3 class="text-xl font-semibold leading-6 tracking-tighter">Sign up</h3>
                     <p class="mt-1.5 text-sm font-medium text-white/50">Hello there! Pick a username and a password and get started!</p>
                 </div>
                 <div class="p-6 pt-0">
@@ -53,10 +53,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="errorMessage" class="mt-4 text-red-500 hidden">
+                            <!-- Error message will be displayed here -->
+                        </div>
                         <div class="mt-4 flex items-center justify-center gap-x-2">
                             <button
                                 class="font-semibold hover:bg-black hover:text-white hover:ring hover:ring-white transition duration-300 inline-flex items-center justify-center rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black h-10 px-4 py-2"
-                                type="submit">Sing up</button>
+                                type="submit">Sign up</button>
                         </div>
                     </form>
                 </div>
@@ -85,9 +88,10 @@
                     // Handle successful sign up
                     document.cookie = `username=${username};path=/`;
                     window.location.replace("/");
-                } else {
-                    // Handle sign up failure
-                    console.error('sign up failed:', data.message);
+                }  else {
+                    // Display error message
+                    errorMessage.textContent = data.message || 'Sign up failed. Please try again.';
+                    errorMessage.classList.remove('hidden');
                 }
             })
             .catch(error => {

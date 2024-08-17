@@ -86,7 +86,7 @@ app.get('/', isAuthenticated, (req, res) => {
 
 app.post('/api/login', [
     body('username').trim().isLength({ min: 1 }).escape().withMessage('Username is required'),
-    body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long')
+    body('password').trim().isLength({ min: 1 }).escape().withMessage('Password must be at least 6 characters long')
 ], (req, res, next) => {
     const errors = validationResult(req);
 
@@ -99,7 +99,7 @@ app.post('/api/login', [
 
 app.post('/api/sign-up', [
     body('username').trim().isLength({ min: 1 }).escape().withMessage('Username is required'),
-    body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long'),
+    body('password').trim().isLength({ min: 1 }).escape().withMessage('Password must be at least 6 characters long'),
 ], async (req, res) => {
     const errors = validationResult(req);
 

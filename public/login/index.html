@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Abuddin Bank</title>
     <link href="../build.css" rel="stylesheet">
 </head>
 
@@ -25,7 +26,7 @@
                 <div class="flex flex-col p-6">
                     <h3 class="text-xl font-semibold leading-6 tracking-tighter">Login</h3>
                     <p class="mt-1.5 text-sm font-medium text-white/50">Welcome back, enter your credentials to
-                        continue. If you do not have an account, one will be created.</p>
+                        continue.</p>
                 </div>
                 <div class="p-6 pt-0">
                     <form id="loginForm">
@@ -54,10 +55,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="errorMessage" class="mt-4 text-red-500 hidden">
+                            <!-- Error message will be displayed here -->
+                        </div>
                         <div class="mt-4 flex items-center justify-center gap-x-2">
                             <button
                                 class="font-semibold hover:bg-black hover:text-white hover:ring hover:ring-white transition duration-300 inline-flex items-center justify-center rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black h-10 px-4 py-2"
                                 type="submit">Log in</button>
+                        </div>
+                        <div class="mt-4 flex items-center justify-center gap-x-2">
+                            <button
+                                class="font-semibold hover:bg-white hover:text-black hover:ring hover:ring-black transition duration-300 inline-flex items-center justify-center rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black text-white h-10 px-4 py-2"
+                                type="button" onclick="window.location.href='/sign up'">Sign up</button>
                         </div>
                     </form>
                 </div>
@@ -72,6 +81,7 @@
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('errorMessage');
 
         fetch('/api/login', {
             method: 'POST',
@@ -87,13 +97,11 @@
                     document.cookie = `username=${username};path=/`;
                     window.location.replace("/");
                 } else {
-                    // Handle login failure
-                    console.error('Login failed:', data.message);
+                    // Display error message
+                    errorMessage.textContent = data.message || 'Login failed. Please try again.';
+                    errorMessage.classList.remove('hidden');
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
     });
 </script>
 

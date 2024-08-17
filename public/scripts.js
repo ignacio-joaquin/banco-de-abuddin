@@ -1,4 +1,4 @@
-}// Handle 'Sell Your Soul' form submission
+// Handle 'Sell Your Soul' form submission
 document.getElementById('soul-form').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent form submission
     const soulValue = document.getElementById('soul-value').value;
@@ -20,6 +20,7 @@ document.getElementById('transfer-form').addEventListener('submit', function (ev
     sendMessage("transfer", message)
     // Add logic to handle fund transfer here
 });
+
 
 // Handle 'Manage Account' form submission
 document.getElementById('manage-username').addEventListener('submit', function (event) {
