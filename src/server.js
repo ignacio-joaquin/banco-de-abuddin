@@ -25,10 +25,10 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.json()); // For parsing application/json
-app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(flash()); // Add this line to use flash messages
+app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Passport Local Strategy for username/password authentication
+// Passport Local Strategy
 passport.use(new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password'
@@ -84,25 +84,20 @@ app.get('/', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// POST /api/login route with validation
 app.post('/api/login', [
-    // Validate and sanitize inputs
     body('username').trim().isLength({ min: 1 }).escape().withMessage('Username is required'),
     body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long')
 ], (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        // Return validation errors
         return res.status(400).json({ errors: errors.array() });
     }
 
-    // Proceed with login logic
     api.logIn(req, res, next);
 });
 
 app.post('/api/sign-up', [
-    // Validate and sanitize inputs
     body('username').trim().isLength({ min: 1 }).escape().withMessage('Username is required'),
     body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long'),
     body('email').isEmail().normalizeEmail().withMessage('Invalid email address')
@@ -110,11 +105,9 @@ app.post('/api/sign-up', [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        // Return validation errors
         return res.status(400).json({ errors: errors.array() });
     }
 
-    // Proceed with sign-up logic
     api.singUp(req, res);
 });
 
@@ -129,9 +122,7 @@ app.use(express.static('../public'));
 
 // Centralized error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack); // Log detailed error stack for debugging (for development only)
-
-    // Send generic error response to the client
+    console.error(err.stack);
     res.status(500).json({
         message: 'Something went wrong. Please try again later.'
     });
@@ -146,18 +137,26 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT || 3010;
 
+// HTTP server (for development or when HTTPS is not needed)
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+/*
+// HTTPS configuration (commented out)
 const https = require('https');
 const fs = require('fs');
 
-// HTTPS configuration
 const options = {
     key: fs.readFileSync('/path/to/your/privkey.pem'),
     cert: fs.readFileSync('/path/to/your/fullchain.pem')
 };
 
+// HTTPS server (uncomment this to enable HTTPS)
 https.createServer(options, app).listen(PORT, () => {
     console.log(`Server is running on https://localhost:${PORT}`);
 });
+*/
 
 app.on('upgrade', (request, socket, head) => {
     sessionParser(request, {}, () => {
