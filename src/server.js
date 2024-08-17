@@ -136,10 +136,11 @@ app.use((req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3010;
+const HOST = '0.0.0.0'; // Bind to all available network interfaces
 
-// HTTP server (for development or when HTTPS is not needed)
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+// HTTP server
+app.listen(PORT, HOST, () => {
+    console.log(`Server is running on http://${HOST}:${PORT}`);
 });
 
 /*
