@@ -100,7 +100,6 @@ app.post('/api/login', [
 app.post('/api/sign-up', [
     body('username').trim().isLength({ min: 1 }).escape().withMessage('Username is required'),
     body('password').trim().isLength({ min: 6 }).escape().withMessage('Password must be at least 6 characters long'),
-    body('email').isEmail().normalizeEmail().withMessage('Invalid email address')
 ], async (req, res) => {
     const errors = validationResult(req);
 
