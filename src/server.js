@@ -135,7 +135,7 @@ app.use((req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3010;
-const HOST = '0.0.0.0'; // Bind to all available network interfaces
+const HOST = 'localhost'; // Bind to all available network interfaces
 
 // HTTP server
 app.listen(PORT, HOST, () => {

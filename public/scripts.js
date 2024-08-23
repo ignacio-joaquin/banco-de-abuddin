@@ -34,7 +34,7 @@ document.getElementById('manage-username').addEventListener('submit', function (
 // Optionally, you could add code to dynamically update balance and social credits
 // For example, you might fetch these from a server and update the DOM
 // Create a new WebSocket connection
-const ws = new WebSocket('ws://192.168.0.26:8080');
+const ws = new WebSocket('ws://192.168.0.16:8080');
 
 // Event handler for when the WebSocket connection is established
 ws.onopen = () => {
